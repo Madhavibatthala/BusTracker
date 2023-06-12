@@ -6,6 +6,6 @@
     android:name="com.google.android.gms.maps.SupportMapFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:apiKey="AIzaSyCxEMaepmpG3LkJfOftsM3L6jzjj1OzGs8"
+    android:apiKey="@string/google_maps_api_key"
     tools:context=".MapsActivity" />
 

@@ -86,14 +86,26 @@ public class AfterLogin extends AppCompatActivity {
                     bus.setLongitude(longitude);
                     databaseReference.child(uid).setValue(bus);
                     Toast.makeText(AfterLogin.this, "uploaded to db", Toast.LENGTH_SHORT).show();
-
                 }
                 Toast.makeText(AfterLogin.this, "The location fetched is "+locationResult.getLastLocation().getLatitude()+"long:"+locationResult.getLastLocation().getLongitude(), Toast.LENGTH_SHORT).show();
             }
         },getMainLooper());
 
     }
-
+//    public void onLocationChanged(Location location) {
+//        if (currentLocation != null) {
+//            currentLocation.remove();
+//        }
+//
+//        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+//        MarkerOptions markerOptions = new MarkerOptions();
+//        markerOptions.position(latLng);
+////        markerOptions.title("Current Position");
+//        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+//        currentLocation = mMap.addMarker(markerOptions);
+//
+//        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
+//    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -151,21 +163,23 @@ public class AfterLogin extends AppCompatActivity {
            // String userId = getSessionUserId();
 
 // Create a reference to the user's node in the database
-            DatabaseReference userRef = database.getReference("buses").child(uid);
+            if(uid!= null) {
+                DatabaseReference userRef = database.getReference("buses").child(uid);
 
 // Remove the user's record from the database
-            userRef.removeValue();
+                userRef.removeValue();
 
 // Clear the session or shared preferences
 //            clearSession();
 
-            edit.clear();
-            edit.commit();
-            Toast.makeText(this, "logout icon is clicked", Toast.LENGTH_SHORT).show();
+                edit.clear();
+                edit.commit();
+                Toast.makeText(this, "logout icon is clicked", Toast.LENGTH_SHORT).show();
 //            FirebaseAuth.getInstance().signOut();
-            Toast.makeText(this, "Signout success", Toast.LENGTH_SHORT).show();
-            finish();
-            startActivity(new Intent(AfterLogin.this, MainActivity.class));
+                Toast.makeText(this, "Sign Out success", Toast.LENGTH_SHORT).show();
+                finish();
+                startActivity(new Intent(AfterLogin.this, MainActivity.class));
+            }
         }
         return true;
     }

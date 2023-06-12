@@ -20,7 +20,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Contact" />
+<!--        <activity android:name=".Contact" />-->
         <activity android:name=".SearchScreen" />
         <activity android:name=".AfterLogin" />
         <activity android:name=".LoginActivity" /> <!-- <activity -->
@@ -39,10 +39,12 @@
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyCxEMaepmpG3LkJfOftsM3L6jzjj1OzGs8" />
+            android:value="@string/google_maps_api_key" />
 
         <meta-data android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+
+
 
         <activity
             android:name=".SplashActivity"

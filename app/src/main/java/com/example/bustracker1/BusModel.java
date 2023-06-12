@@ -12,7 +12,7 @@ public String name;
         this.latitude = latitude;
         this.longitude = longitude;
         //this.phoneNum = phoneNum1;
-        /* this.phoneNum = phoneNum; */
+//        this.phoneNum = phoneNum;
         this.name = name;
     }
 

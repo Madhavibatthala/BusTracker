@@ -11,21 +11,21 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button usrbtn,admnbtn;
+    Button usrbtn,driverbtn;
     SharedPreferences sharedPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         usrbtn=(Button)findViewById(R.id.user);
-        admnbtn=(Button)findViewById(R.id.admin);
+        driverbtn=(Button)findViewById(R.id.admin);
         sharedPreferences=getSharedPreferences("SHARED_PREFERENCES",MODE_PRIVATE);
 
-        admnbtn.setOnClickListener(new View.OnClickListener() {
+        driverbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String uid=sharedPreferences.getString("UID","");
-                Toast.makeText(MainActivity.this, "The fetched uid is "+uid, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(MainActivity.this, "The fetched uid is "+uid, Toast.LENGTH_SHORT).show();
                 if(uid.isEmpty())
                 {
                     startActivity(new Intent(MainActivity.this,LoginActivity.class));

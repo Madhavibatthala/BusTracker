@@ -61,9 +61,12 @@ public class LoginActivity extends AppCompatActivity {
                             SharedPreferences.Editor edit=sharedPreferences.edit();
                             String userId=mauth.getUid();
                             edit.putString("UID",userId);
-                            edit.putString("name",user_name);
+
+                            String[] sub = user_name.split("@");
+                            edit.putString("name",sub[0]);
+
                             edit.apply();
-                            Toast.makeText(LoginActivity.this, "Shared preferences stored and they are"+sharedPreferences.getString("UID","not found"), Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(LoginActivity.this, "Shared preferences stored and they are"+sharedPreferences.getString("UID","not found"), Toast.LENGTH_SHORT).show();
                             progressDialog.cancel();
                             finish();
                             startActivity(new Intent(LoginActivity.this,AfterLogin.class));
@@ -72,8 +75,9 @@ public class LoginActivity extends AppCompatActivity {
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            progressDialog.cancel();
-                            Toast.makeText(LoginActivity.this, "Login failed due to some reasons", Toast.LENGTH_SHORT).show();
+//                            progressDialog.cancel();
+                            Toast.makeText(LoginActivity.this, "Invalid credentials", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(LoginActivity.this,MainActivity.class));
                         }
                     });
                 }

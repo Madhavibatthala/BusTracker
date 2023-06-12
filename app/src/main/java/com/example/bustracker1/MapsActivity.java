@@ -1,5 +1,4 @@
 package com.example.bustracker1;
-
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
@@ -17,6 +16,7 @@ import android.widget.Toast;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationAvailability;
 import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
@@ -26,7 +26,9 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -35,15 +37,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import java.util.ArrayList;
-
-
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
-
     public GoogleMap mMap;
     public DatabaseReference databaseReference;
-
     ArrayList<BusModel> busList;
     ProgressDialog progressDialog;
 
@@ -56,16 +53,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         progressDialog.setCancelable(false);
         progressDialog.setTitle("Loading");
         progressDialog.setMessage("Please wait while Loading");
-
-//        MapView mapView;
-//
-//        mapView = findViewById(R.id.mapView);
-//        mapView.onCreate(savedInstanceState);
-
         databaseReference = FirebaseDatabase.getInstance("https://bus-tracker-aa22e-default-rtdb.firebaseio.com/").getReference().child("buses");
         busList = new ArrayList<>();
         progressDialog.show();
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot data : dataSnapshot.getChildren()) {
@@ -75,7 +66,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     bus.setLongitude(data.child("longitude").getValue().toString());
 //                    bus.setPhoneNum(data.child("phoneNum").getValue().toString());
                     busList.add(bus);
-                    Toast.makeText(MapsActivity.this, "bus added" + data.child("name").getValue(), Toast.LENGTH_SHORT).show();
+                    LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+//                    Toast.makeText(MapsActivity.this, "bus added" + data.child("name").getValue(), Toast.LENGTH_SHORT).show();
                 }
                 Toast.makeText(MapsActivity.this, "bus list" + busList.get(0).getLatitude(), Toast.LENGTH_SHORT).show();
 
@@ -83,31 +75,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         .findFragmentById(R.id.map);
                 assert mapFragment != null;
                 mapFragment.getMapAsync(MapsActivity.this);
-
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Toast.makeText(MapsActivity.this, "onCancelled Method called", Toast.LENGTH_SHORT).show();
             }
         });
-        //        databaseReference.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//
-//                for(DataSnapshot data:dataSnapshot.getChildren()){
-//                    Toast.makeText(MapsActivity.this, data.toString(), Toast.LENGTH_SHORT).show();
-//                }
-////
-////                Toast.makeText(MapsActivity.this, dataSnapshot.toString(), Toast.LENGTH_SHORT).show();
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//                Toast.makeText(MapsActivity.this, "onCancelled Method called", Toast.LENGTH_SHORT).show();
-//            }
-//        });
     }
 
     @Override
@@ -147,11 +120,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                         // TODO: Consider calling
                         //    ActivityCompat#requestPermissions
-                        // here to request the missing permissions, and then overriding
-                        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                        //                                          int[] grantResults)
-                        // to handle the case where the user grants the permission. See the documentation
-                        // for ActivityCompat#requestPermissions for more details.
                         return;
                     }
                     mMap.setMyLocationEnabled(true);

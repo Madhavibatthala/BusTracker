@@ -33,7 +33,7 @@ public class FirstScreen extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(FirstScreen.this,SearchScreen.class));
-                Toast.makeText(FirstScreen.this, "Button 2 is clicked", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(FirstScreen.this, "Button 2 is clicked", Toast.LENGTH_SHORT).show();
             }
         });
 //        bt3.setOnClickListener(new View.OnClickListener() {
